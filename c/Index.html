@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5 Quiz & Flashcards - ADS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header role="banner">
+        <h1>Arquitetura de Aplicações Web Modernas</h1>
+        <p>Compêndio de Questões de HTML5 e APIs DOM para Plataformas de Aprendizagem Ativa</p>
+    </header>
+
+    <nav role="navigation" aria-label="Navegação principal">
+        <button class="nav-tab active" data-tab="quiz" aria-pressed="true" tabindex="0">Quiz</button>
+        <button class="nav-tab" data-tab="flashcards" aria-pressed="false" tabindex="-1">Flashcards</button>
+        <button class="nav-tab" data-tab="progress" aria-pressed="false" tabindex="-1">Progresso</button>
+    </nav>
+
+    <main role="main">
+        <!-- Quiz Section -->
+        <section id="quiz-section" class="tab-content active" aria-live="polite">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <h2>Módulo de Avaliação</h2>
+                    <div class="quiz-info">
+                        <span id="question-counter">Questão 1 de 10</span>
+                        <span id="score-display">Pontuação: 0</span>
+                    </div>
+                </div>
+                <form id="quiz-form" novalidate>
+                    <div id="question-container" role="region" aria-label="Área de perguntas">
+                        <!-- Questions will be loaded here -->
+                    </div>
+                    <div class="quiz-controls">
+                        <button type="button" id="prev-btn" class="btn btn-secondary" disabled>Anterior</button>
+                        <button type="button" id="hint-btn" class="btn btn-hint"> Dica</button>
+                        <button type="button" id="next-btn" class="btn btn-primary">Próxima</button>
+                        <button type="submit" id="submit-btn" class="btn btn-success" style="display: none;">Finalizar Quiz</button>
+                    </div>
+                    <div id="hint-display" class="hint-display" style="display: none;"></div>
+                </form>
+                <div id="quiz-results" class="results-container" style="display: none;" role="alert" aria-live="assertive">
+                    <!-- Results will be displayed here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Flashcards Section -->
+        <section id="flashcards-section" class="tab-content" aria-live="polite">
+            <div class="flashcards-container">
+                <div class="flashcards-header">
+                    <h2>Flashcards - Repetição Espaçada</h2>
+                    <div class="flashcards-info">
+                        <span id="flashcard-counter">Card 1 de 10</span>
+                        <span id="mastery-display">Domínio: 0%</span>
+                    </div>
+                </div>
+                <div class="flashcard-wrapper">
+                    <div id="flashcard" class="flashcard" role="button" tabindex="0" aria-label="Flashcard - clique para virar">
+                        <div class="flashcard-front">
+                            <div class="flashcard-content">
+                                <span class="module-label">Módulo</span>
+                                <h3 id="flashcard-title"></h3>
+                                <p id="flashcard-question"></p>
+                                <span class="hint">Clique para ver a resposta</span>
+                            </div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="flashcard-content">
+                                <span class="module-label">Resposta</span>
+                                <p id="flashcard-answer"></p>
+                                <span class="suffix-highlight" id="flashcard-suffix"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flashcard-controls">
+                    <button type="button" id="flashcard-prev" class="btn btn-secondary" disabled>Anterior</button>
+                    <button type="button" id="flashcard-flip" class="btn btn-primary">Virar</button>
+                    <button type="button" id="flashcard-next" class="btn btn-secondary">Próximo</button>
+                </div>
+                <div class="mastery-controls">
+                    <button type="button" class="mastery-btn" data-mastery="hard" aria-label="Marcar como difícil">
+                        <span class="mastery-icon">😓</span>
+                        Difícil
+                    </button>
+                    <button type="button" class="mastery-btn" data-mastery="medium" aria-label="Marcar como médio">
+                        <span class="mastery-icon">🤔</span>
+                        Médio
+                    </button>
+                    <button type="button" class="mastery-btn" data-mastery="easy" aria-label="Marcar como fácil">
+                        <span class="mastery-icon">😊</span>
+                        Fácil
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section id="progress-section" class="tab-content" aria-live="polite">
+            <div class="progress-container">
+                <h2>Seu Progresso</h2>
+                <div class="progress-stats">
+                    <div class="stat-card">
+                        <h3>Quiz</h3>
+                        <p id="quiz-completion">0% concluído</p>
+                        <p id="quiz-best-score">Melhor pontuação: 0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Flashcards</h3>
+                        <p id="flashcards-mastery">0% domínio</p>
+                        <p id="flashcards-reviewed">Cards revisados: 0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Sufixos Dominados</h3>
+                        <div id="suffix-progress" class="suffix-list">
+                            <span class="suffix-item" data-suffix="-ty">-ty: 0%</span>
+                            <span class="suffix-item" data-suffix="-tion">-tion: 0%</span>
+                            <span class="suffix-item" data-suffix="-ly">-ly: 0%</span>
+                            <span class="suffix-item" data-suffix="-ence">-ence: 0%</span>
+                            <span class="suffix-item" data-suffix="-ance">-ance: 0%</span>
+                            <span class="suffix-item" data-suffix="-al">-al: 0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-actions">
+                    <button type="button" id="reset-progress" class="btn btn-danger">Resetar Progresso</button>
+                    <button type="button" id="export-progress" class="btn btn-primary">Exportar Progresso</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <p>Plataforma de Aprendizagem Ativa - Análise e Desenvolvimento de Sistemas</p>
+        <p>Baseado na documentação W3Schools HTML5 e APIs DOM</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
